@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/styles.css" /> 
+    <title>Conversor de Sistemas Numéricos</title>
+</head>
+<style>
+    body{
+    background-color: black;
+}
+
+.maintitle{
+    font-family: Arial, Helvetica, sans-serif;
+    /*text-align: center;*/
+    margin-top: 80px;
+    color: purple;
+}
+
+.lowletter{
+    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+    font-size: large;
+    align-content: center;
+    margin-top: 20px;
+    color: white;
+}
+
+.space{
+    background-color: black;
+    border-color: blueviolet;
+    border-radius: 5%;
+}
+
+button{
+    align-content: center;
+}
+
+.results{
+    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+    margin-left: 50px;
+    font-size: 1cm;
+    color: white;
+    margin-top: 20px;
+}
+
+</style>
+<body>
+    <h1 class="maintitle">Conversor de Sistemas Numéricos</h1>
+    <label class="lowletter" for="input_number">Numero de entrada:</label>
+    <input class="lowletter space" type="text" id="input_number">
+    <br>
+    <label class="lowletter" for="input_base">Base de entrada:</label>
+    <select class="lowletter space" id="input_base">
+        <option value="dec">Decimal</option>
+        <option value="hex">Hexadecimal</option>
+        <option value="bin">Binario</option>
+        <option value="oct">Octal</option>
+    </select>
+    <br>
+    <label class="lowletter" for="output_base">Base de salida:</label>
+    <select class="lowletter space" id="output_base">
+        <option value="dec">Decimal</option>
+        <option value="hex">Hexadecimal</option>
+        <option value="bin">Binario</option>
+        <option value="oct">Octal</option>
+    </select>
+    <br>
+    <button class="lowletter space buttomxd" onclick="convert()">Convertir</button>
+    <p class="results" id="result"></p>
+    
+    <script>
+        function convert() {
+            const inputNumber = document.getElementById("input_number").value;
+            const inputBase = document.getElementById("input_base").value;
+            const outputBase = document.getElementById("output_base").value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        document.getElementById("result").textContent = `Resultado: ${xhr.responseText}`;
+                    } else {
+                        console.error("Error en la solicitud.");
+                    }
+                }
+            };
+            const data = `number=${inputNumber}&input_base=${inputBase}&output_base=${outputBase}`;
+            xhr.send(data);
+        }
+    </script>
+</body>
+</html>
